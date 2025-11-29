@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page Logic</title>
+    <!-- Modern fonts + variables for theming -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="pageLogo">
+        <img src="./assets/Mad_LOGO.png" alt="Logo">
+    </div>
+
+    <div class="banner-container">
+        <div class="banner-slider" id="bannerSlider">
+            <a href="https://madminimalist.com/pages/madminimalist-innerwears" class="banner-slide banner-1">
+                <img src="./assets/banner1.jpg" alt="image-banner" />
+            </a>
+            <a href="https://madminimalist.com/pages/madminimalist-innerwears" class="banner-slide banner-2">
+                <img src="./assets/banner2.jpg" alt="image-banner" />
+            </a>
+        </div>
+    </div>
+
+    <div class="page-wrapper">
+        <div class="content-split">
+            <!-- LEFT SIDE: VIDEO & CTA -->
+            <div class="split-video">
+               <video id="promoVideo" autoplay muted loop playsinline preload="auto" style="width:100%; height:auto; object-fit:cover;">
+    <source src="./assets/6(720).mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+<div id="tapOverlay" style="
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-size:1.2rem;
+    cursor:pointer;
+    background:rgba(0,0,0,0.3);
+">Tap to unmute</div>
+
+                <a id="ctaFreeBtn" href="javascript:void(0)" class="cta-btn-large">
+                  Claim ₹100 Off On Innerwear!
+                </a>
+
+            </div>
+
+            <!-- RIGHT SIDE: MAIN CONTENT -->
+            <div id="mainContent">
+                <h1>Welcome to MadMinimalist</h1>
+                <p id="dynamicText">
+                    This content will change based on what you select.
+                </p>
+
+                <button id="submitFinal" class="submit-btn" style="display:none;">Claim now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== EMAIL POPUP ===================== -->
+    <div id="emailOverlay" class="overlay">
+        <div class="popup-box" role="dialog" aria-labelledby="emailTitle" aria-modal="true">
+            
+            <h2 id="emailTitle">Your Free Innerwear Is Waiting <br>Claim It!</h2>
+            <!-- Optional image for the collection; replace the src with your desired image. Full width inside the popup. -->
+           <figure class="overlay-figure" aria-hidden="false"> <!-- Desktop image --> <img src="./assets/email.jpg" alt="MadMinimalist Collection" class="overlay-hero desktop-img" /> <!-- Mobile image --> <img src="./assets/email2.jpg" alt="MadMinimalist Collection" class="overlay-hero mobile-img" /> </figure>
+            <p class="popup-subtext">Enter your email to get a discount code.</p>
+            <form class="popup-form" onsubmit="validateAndSubmit(event)" novalidate>
+                <label for="emailInput" class="sr-only">Email address</label>
+                <input type="email" id="emailInput" name="emailInput" placeholder="Enter your email">
+                <div id="emailError" class="error-message" role="alert" aria-live="assertive" aria-atomic="true"
+                    aria-hidden="true"></div>
+                <button type="submit" id="emailSubmitBtn" class="submit-btn">Submit</button>
+
+        </div>
+    </div>
+
+    <!-- ===================== QUESTION POPUP ===================== -->
+    <div id="questionOverlay" class="overlay">
+        <div class="popup-box">
+            
+            <!-- logo removed from question overlay to keep focus on choices -->
+
+            <h2>What’s your preferred choice?</h2>
+
+            <div class="choice-container">
+                <div class="choice-item" data-choice="harmed" onclick="selectOption('harmed', this)" role="button"
+                    tabindex="0">
+                    <img src="./assets/RASHES.jpg" alt="Harmed clothing">
+                    <div class="choice-label">Dyed, Harmful and Chemical Innerwear</div>
+                </div>
+
+                <div class="choice-item" data-choice="unharmed" onclick="selectOption('unharmed', this)" role="button"
+                    tabindex="0">
+                    <img src="./assets/RASHESfree.jpg" alt="Unharmed clothing">
+                    <div class="choice-label">Undyed & Organic Cotton Innerwear</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== FINAL POPUP ===================== -->
+    <div id="finalPopup" class="overlay">
+        <div class="popup-box" id="finalPopupBox">
+            <button class="close-x" aria-label="Close final popup" onclick="closeOverlay('finalPopup')">✕</button>
+            <div id="popupContent"></div>
+        </div>
+    </div>
+
+    <!-- ===================== THANKS POPUP ===================== -->
+    <div id="thanksPopup" class="overlay">
+        <div class="popup-box thanks-popup">
+            <h2>Thanks for Participating!</h2>
+             <p>We will announce the winner for the free innerwear giveaway within 30 days.</p>
+        </div>
+    </div>
+
+    <!-- ===================== TOAST NOTIFICATION ===================== -->
+    <div id="toast">Code Copied!</div>
+
+    <h2 class="heading">Why MadMinimalist?</h2>
+
+    <div class="video-wrapper">
+       
+
+   
+        <div class="video-gallery">
+
+            <!-- ORIGINAL SET -->
+            <video class="video-card" autoplay muted loop playsinline>
+                <source src="./assets/video1.mp4" type="video/mp4">
+            </video>
+
+            <video class="video-card" autoplay muted loop playsinline>
+                <source src="./assets/video2.mp4" type="video/mp4">
+            </video>
+
+            <video class="video-card" autoplay muted loop playsinline>
+                <source src="./assets/video3.mp4" type="video/mp4">
+            </video>
+
+            <video class="video-card" autoplay muted loop playsinline>
+                <source src="./assets/video4.mp4" type="video/mp4">
+            </video>
+
+            <video class="video-card" autoplay muted loop playsinline>
+                <source src="./assets/video5.mp4" type="video/mp4">
+            </video>
+
+
+            <!-- DUPLICATE SET FOR INFINITE LOOP -->
+            <video class="video-card" autoplay muted loop playsinline>
+                <source src="./assets/video1.mp4" type="video/mp4">
+            </video>
+
+            <video class="video-card" autoplay muted loop playsinline>
+                <source src="./assets/video2.mp4" type="video/mp4">
+            </video>
+
+            <video class="video-card" autoplay muted loop playsinline>
+                <source src="./assets/video3.mp4" type="video/mp4">
+            </video>
+
+            <video class="video-card" autoplay muted loop playsinline>
+                <source src="./assets/video4.mp4" type="video/mp4">
+            </video>
+
+            <video class="video-card" autoplay muted loop playsinline>
+                <source src="./assets/video5.mp4" type="video/mp4">
+            </video>
+
+        </div>
+    </div>
+
+</body>
+</html>
+
+    </div>
+
+    <script>
+        // Change to false to enable the already-submitted behavior.
+        const SKIP_SUBMITTED_CHECK = true; // <-- temporarily skip showing the already-submitted state
+
+        /* ---------------- SHOW EMAIL POPUP AFTER 1 SECOND ---------------- */
+        setTimeout(() => {
+            if (isSubmitted()) return;
+            const emailOverlay = document.getElementById("emailOverlay");
+            if (!emailOverlay) return;
+            emailOverlay.style.display = "flex";
+            emailOverlay.setAttribute("aria-hidden", "false");
+            const emailEl = document.getElementById("emailInput");
+            if (emailEl && typeof emailEl.focus === "function") emailEl.focus();
+        }, 1000);
+
+        /* ---------------- CLOSE OVERLAY ---------------- */
+        function closeOverlay(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.style.display = "none";
+            el.setAttribute("aria-hidden", "true");
+
+            // if closing finalPopup, remove success class
+            if (id === "finalPopup") {
+                const finalBox = document.querySelector("#popupContent")?.parentElement;
+                if (finalBox) finalBox.classList.remove("success");
+            }
+        }
+
+        /* ---------------- SUBMISSION STATE HELPERS ---------------- */
+        function isSubmitted() {
+            if (typeof SKIP_SUBMITTED_CHECK !== "undefined" && SKIP_SUBMITTED_CHECK) return false;
+            try {
+                return localStorage.getItem("mad_hasSubmitted") === "true";
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function disableQuizInteraction() {
+            document.querySelectorAll(".choice-item").forEach((it) => {
+                it.classList.add("disabled");
+                it.setAttribute("aria-disabled", "true");
+                it.style.pointerEvents = "none";
+                it.style.opacity = 0.6;
+            });
+
+            const submitBtn = document.getElementById("submitFinal");
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Claimed";
+                submitBtn.classList.add("disabled");
+            }
+        }
+
+        /* ---------------- TOAST FUNCTION ---------------- */
+        function showToast() {
+            const toast = document.getElementById("toast");
+            if (!toast) return;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2000);
+        }
+
+        /* ---------------- COPY CODE + SHOW TOAST ---------------- */
+        function copyCode() {
+            const codeEl = document.getElementById("code");
+            if (!codeEl) return;
+            const codeText = codeEl.innerText;
+
+            navigator.clipboard
+                .writeText(codeText)
+                .then(showToast)
+                .catch(() => {
+                    const tempInput = document.createElement("input");
+                    tempInput.value = codeText;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(tempInput);
+                    showToast();
+                });
+        }
+
+        /* ---------------- THANKS POPUP FUNCTION ---------------- */
+        function showThanksPopup() {
+            const thanksPopup = document.getElementById("thanksPopup");
+            if (!thanksPopup) return;
+            thanksPopup.style.display = "flex";
+            thanksPopup.setAttribute("aria-hidden", "false");
+            setTimeout(() => {
+                thanksPopup.style.display = "none";
+                thanksPopup.setAttribute("aria-hidden", "true");
+            }, 5000);
+        }
+
+        /* ---------------- ALREADY SUBMITTED POPUP ---------------- */
+        function showAlreadySubmittedPopup() {
+            const popup = document.getElementById("popupContent");
+            if (!popup) return;
+            const finalBox = popup.parentElement;
+            if (finalBox) finalBox.classList.add("success");
+
+            popup.innerHTML = `
+        <div class="final-content" role="document">
+            <h2>🎉 Already Submitted</h2>
+            <p class="popup-subtext">We found that you already submitted the quiz — thank you !</p>
+            <h3 class="sr-only">Discount code</h3>
+            <div class="code-box" id="code" aria-live="polite">FREE100</div>
+            <div class="button-row">
+                <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+                <a class="redirect-btn" href="https://madminimalist.com/pages/madminimalist-innerwears" target="_blank" rel="noopener noreferrer">Visit Store</a>
+            </div>
+        </div>
+        `;
+
+            const finalPopup = document.getElementById("finalPopup");
+            if (finalPopup) {
+                finalPopup.style.display = "flex";
+                finalPopup.setAttribute("aria-hidden", "false");
+            }
+
+            disableQuizInteraction();
+        }
+
+        /* ---------------- SELECT HARMED / UNHARMED ---------------- */
+        function selectOption(choice, el) {
+            window.selection = choice
+            const mainHeading = document.querySelector("#mainContent h1");
+
+            // highlight selection
+            const items = document.querySelectorAll(".choice-item");
+            items.forEach((i) => i.classList.remove("selected"));
+            if (el && el.classList) el.classList.add("selected");
+
+            // close question overlay
+            const qOverlay = document.getElementById("questionOverlay");
+            if (qOverlay) qOverlay.style.display = "none";
+
+            // thanks popup
+            showThanksPopup();
+
+            // remove blur
+            const mainContent = document.getElementById("mainContent");
+            if (mainContent) mainContent.style.filter = "blur(0px)";
+
+            // content change
+            const dynamicText = document.getElementById("dynamicText");
+            if (!dynamicText) return;
+
+            if (choice === "harmed") {
+                if (mainHeading) mainHeading.textContent = "This Innerwear Isn’t Safe";
+                dynamicText.innerHTML = `
+            <div class="harm-list">
+                <p><img src="./assets/chemicals.png" class="safe-icon" />Synthetic fabrics block airflow, trapping sweat and keeping the skin constantly moist.</p>
+                <p><img src="./assets/infected.png" class="safe-icon" />Moisture buildup becomes a breeding ground for bacteria and fungi, causing rashes and infections.</p>
+                <p><img src="./assets/Dyes.png" class="safe-icon" />Cheap chemical dyes and finishes can disrupt the skin barrier and trigger irritation.</p>
+                <p><img src="./assets/sensitive.png" class="safe-icon" />Low-quality elastics create friction that damages the skin’s outer protective layer over time.</p>
+                <p><img src="./assets/sweating.png" class="safe-icon" />Poor airflow increases heat around intimate areas, disturbing natural pH and causing discomfort.</p>
+            </div>`;
+            } else {
+                if (mainHeading) mainHeading.textContent = "Safe & Organic Innerwear";
+                dynamicText.innerHTML = `
+            <div class="safe-list">
+                <p><img src="./assets/touch.png" class="safe-icon" />You’ve made a wise choice by choosing organic cotton for your skin.</p>
+                <p><img src="./assets/harsh.png" class="safe-icon" />Crafted from 100% pure, chemical-free organic cotton.</p>
+                <p><img src="./assets/breathable.png" class="safe-icon" />Naturally breathable fibers keep you cool, dry, and irritation-free all day.</p>
+                <p><img src="./assets/fresh.png" class="safe-icon" />Gentle on sensitive areas — no toxic dyes, no harsh synthetics.</p>
+                <p><img src="./assets/allergies.png" class="safe-icon" />Gives clean comfort, natural freshness, and everyday confidence.</p>
+            </div>`;
+            }
+            if (window.userEmail) {
+                sendChoiceToSheet(window.userEmail, choice);
+            }
+
+
+            const submitBtn = document.getElementById("submitFinal");
+            if (submitBtn) {
+                submitBtn.style.display = "block";
+                if (isSubmitted()) {
+                    submitBtn.textContent = "Claimed";
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add("disabled");
+                } else {
+                    submitBtn.textContent = "Claim now";
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove("disabled");
+                }
+            }
+        }
+
+        /* ---------------- FINAL SUBMIT BUTTON ---------------- */
+        const submitFinalBtn = document.getElementById("submitFinal");
+        if (submitFinalBtn) {
+            submitFinalBtn.onclick = function () {
+                if (isSubmitted()) {
+                    showAlreadySubmittedPopup();
+                    return;
+                }
+
+                const popup = document.getElementById("popupContent");
+                if (!popup) return;
+
+                const finalBox = popup.parentElement;
+                if (finalBox) finalBox.classList.add("success");
+
+                const finalPopup = document.getElementById("finalPopup");
+                if (finalPopup) {
+                    finalPopup.style.display = "flex";
+                    finalPopup.setAttribute("aria-hidden", "false");
+                }
+
+                popup.innerHTML = `
+           <div class="final-content" role="document">
+  <h2>🎉 Congratulations!</h2>
+  <p>You won a flat ₹100 offer — copy the code and enjoy your discount.</p>
+  <h3 class="sr-only">Discount code</h3>
+  <div class="code-box" id="code" aria-live="polite">FLAT100</div>
+  <div class="button-row">
+    <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+    <a class="redirect-btn" href="https://madminimalist.com/pages/madminimalist-innerwears" target="_blank" rel="noopener noreferrer">Visit Store</a>
+  </div>
+</div>
+
+            `;
+
+                try {
+                    localStorage.setItem("mad_hasSubmitted", "true");
+                } catch (e) { }
+
+                disableQuizInteraction();
+            };
+        }
+
+        /* ---------------- CTA BUTTON (GET YOUR FREE INNERWEAR) ---------------- */
+        const ctaBtn = document.getElementById("ctaFreeBtn");
+        if (ctaBtn) {
+            ctaBtn.onclick = function () {
+                if (isSubmitted()) {
+                    showAlreadySubmittedPopup();
+                    return;
+                }
+
+                const popup = document.getElementById("popupContent");
+                if (!popup) return;
+
+                const finalBox = popup.parentElement;
+                if (finalBox) finalBox.classList.add("success");
+
+                const finalPopup = document.getElementById("finalPopup");
+                if (finalPopup) {
+                    finalPopup.style.display = "flex";
+                    finalPopup.setAttribute("aria-hidden", "false");
+                }
+
+                popup.innerHTML = `
+           <div class="final-content" role="document">
+  <h2>🎉 Congratulations!</h2>
+  <p>You won a flat ₹100 offer — copy the code and enjoy your discount.</p>
+  <h3 class="sr-only">Discount code</h3>
+  <div class="code-box" id="code" aria-live="polite">FLAT100</div>
+  <div class="button-row">
+    <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+    <a class="redirect-btn" href="https://madminimalist.com/pages/madminimalist-innerwears" target="_blank" rel="noopener noreferrer">Visit Store</a>
+  </div>
+</div>
+
+            `;
+
+                try {
+                    localStorage.setItem("mad_hasSubmitted", "true");
+                } catch (e) { }
+
+                disableQuizInteraction();
+            };
+        }
+
+        /* ---------------- BANNER SLIDER ---------------- */
+        let currentIndex = 0;
+        const slider = document.getElementById("bannerSlider");
+        const slides = document.querySelectorAll(".banner-slide");
+        const totalSlides = slides.length || 0;
+
+        function goToSlide(i) {
+            if (!slider || totalSlides === 0) return;
+            currentIndex = ((i % totalSlides) + totalSlides) % totalSlides;
+            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        function nextSlide() {
+            goToSlide(currentIndex + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentIndex - 1);
+        }
+
+        let autoSlideInterval = null;
+
+        function startAutoSlide() {
+            if (autoSlideInterval) return;
+            autoSlideInterval = setInterval(nextSlide, 3000);
+        }
+
+        function stopAutoSlide() {
+            if (autoSlideInterval) clearInterval(autoSlideInterval);
+            autoSlideInterval = null;
+        }
+
+        startAutoSlide();
+
+        const bannerContainerEl = slider?.closest(".banner-container");
+        if (bannerContainerEl) {
+            bannerContainerEl.addEventListener("mouseenter", stopAutoSlide);
+            bannerContainerEl.addEventListener("mouseleave", startAutoSlide);
+        }
+
+        let touchStartX = 0;
+        let touchDeltaX = 0;
+
+        if (slider) {
+            slider.addEventListener(
+                "touchstart",
+                (e) => {
+                    stopAutoSlide();
+                    touchStartX = e.touches[0].clientX;
+                    touchDeltaX = 0;
+                },
+                { passive: true }
+            );
+
+            slider.addEventListener(
+                "touchmove",
+                (e) => {
+                    if (!e.touches || e.touches.length === 0) return;
+                    touchDeltaX = e.touches[0].clientX - touchStartX;
+                },
+                { passive: true }
+            );
+
+            slider.addEventListener("touchend", () => {
+                const threshold = 40;
+                if (touchDeltaX < -threshold) {
+                    nextSlide();
+                } else if (touchDeltaX > threshold) {
+                    prevSlide();
+                }
+                touchStartX = 0;
+                touchDeltaX = 0;
+                startAutoSlide();
+            });
+        }
+
+        /* ---------------- EMAIL FLOW ---------------- */
+        function showError(message) {
+            const emailInput = document.getElementById("emailInput");
+            const errorMsg = document.getElementById("emailError");
+            if (!emailInput || !errorMsg) return;
+
+            emailInput.classList.add("invalid");
+            errorMsg.setAttribute("aria-hidden", "false");
+            errorMsg.textContent = message;
+            errorMsg.classList.add("visible");
+
+            if (typeof emailInput.focus === "function") emailInput.focus();
+
+            emailInput.classList.add("shake");
+            setTimeout(() => emailInput.classList.remove("shake"), 300);
+        }
+
+        function clearError() {
+            const emailInput = document.getElementById("emailInput");
+            const errorMsg = document.getElementById("emailError");
+            if (!emailInput || !errorMsg) return;
+
+            emailInput.classList.remove("invalid");
+            errorMsg.setAttribute("aria-hidden", "true");
+            errorMsg.classList.remove("visible");
+            emailInput.classList.remove("shake");
+        }
+
+        function sendEmailInBackground(email) {
+            window.userEmail = email; // store only — do NOT send yet
+        }
+
+        function sendChoiceToSheet(email, choice) {
+            fetch("https://script.google.com/macros/s/AKfycbxiwcc5aeGmM1LqkBPDo4vGu3WLBOU-yFjZnjkrmB0R_ereg3UpESAIm-Xh7SdloEBP/exec", {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: email,
+                    choice: choice,
+                    time: new Date().toISOString()
+                })
+            });
+        }
+
+
+        function openQuestionOverlay() {
+            closeOverlay("emailOverlay");
+            const questionOverlay = document.getElementById("questionOverlay");
+            if (questionOverlay) {
+                questionOverlay.style.display = "flex";
+                questionOverlay.setAttribute("aria-hidden", "false");
+                const firstChoice = questionOverlay.querySelector(".choice-item");
+                if (firstChoice && typeof firstChoice.focus === "function") firstChoice.focus();
+            }
+        }
+
+        async function validateAndSubmit(event) {
+            event.preventDefault();
+            const emailInput = document.getElementById("emailInput");
+            if (!emailInput) return;
+
+            const email = emailInput.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!email) {
+                showError("Please enter your email address.");
+                return;
+            }
+            if (!emailRegex.test(email)) {
+                showError("Please enter a valid email address.");
+                return;
+            }
+
+            clearError();
+
+            try {
+                sendEmailInBackground(email);
+            } catch (e) {
+                console.error(e);
+            }
+
+            enableAllButtons();
+            openQuestionOverlay();
+        }
+
+        // Bind email input + form
+        const emailInputEl = document.getElementById("emailInput");
+        if (emailInputEl) {
+            emailInputEl.addEventListener("input", clearError);
+        }
+
+        const emailFormEl = document.querySelector("#emailOverlay form");
+        if (emailFormEl) {
+            emailFormEl.addEventListener("submit", validateAndSubmit);
+        }
+
+        /* ---------------- GLOBAL DOMContentLoaded HANDLERS ---------------- */
+        document.addEventListener("DOMContentLoaded", () => {
+            // keyboard support
+            document.querySelectorAll(".choice-item").forEach((item) => {
+                item.addEventListener("keydown", (e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        const choice = item.dataset.choice;
+                        selectOption(choice, item);
+                    }
+                });
+            });
+
+            // ESC to close overlays
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") {
+                    ["emailOverlay", "questionOverlay", "finalPopup", "thanksPopup"].forEach((id) => {
+                        const el = document.getElementById(id);
+                        if (el && el.style.display === "flex") {
+                            el.style.display = "none";
+                            el.setAttribute("aria-hidden", "true");
+                        }
+                    });
+                }
+            });
+
+            // If already submitted from before
+            if (isSubmitted()) {
+                const emailOverlay = document.getElementById("emailOverlay");
+                const questionOverlay = document.getElementById("questionOverlay");
+                const thanksPopup = document.getElementById("thanksPopup");
+                if (emailOverlay) emailOverlay.style.display = "none";
+                if (questionOverlay) questionOverlay.style.display = "none";
+                if (thanksPopup) thanksPopup.style.display = "none";
+                showAlreadySubmittedPopup();
+            }
+        });
+
+
+
+
+        // main content video mute/unmute
+        const video = document.getElementById("promoVideo");
+const overlay = document.getElementById("tapOverlay");
+
+overlay.addEventListener("click", () => {
+    video.muted = false;    // unmute video
+    video.play();           // ensure playback
+    overlay.style.display = "none"; // hide overlay
+});
+
+
+
+
+// disable and enable buttons
+
+function disableAllButtons() {
+    document.querySelectorAll("button, a").forEach(btn => {
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
+        btn.style.pointerEvents = "none";
+    });
+
+    // keep ONLY email submit enabled
+    const emailSubmitBtn = document.getElementById("emailSubmitBtn");
+    if (emailSubmitBtn) {
+        emailSubmitBtn.disabled = false;
+        emailSubmitBtn.style.opacity = "1";
+        emailSubmitBtn.style.pointerEvents = "auto";
+    }
+}
+
+function enableAllButtons() {
+    document.querySelectorAll("button, a").forEach(btn => {
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        btn.style.pointerEvents = "auto";
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    disableAllButtons();
+});
+
+
+    </script>
+
+</body>
+
+</html>
