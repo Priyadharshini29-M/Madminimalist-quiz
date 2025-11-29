@@ -1227,3 +1227,22 @@
         overflow-y: auto;
     }
 }
+
+/* ------------------ CENTER ALIGN OVERLAY TEXT ------------------ */
+/* Force all text inside overlays/popups to align center for consistent UX */
+.overlay .popup-box,
+.overlay .popup-box h1,
+.overlay .popup-box h2,
+.overlay .popup-box h3,
+.overlay .popup-box p,
+.overlay .popup-box label,
+.overlay .popup-box .popup-subtext,
+.overlay .popup-box .choice-label,
+.overlay .popup-box .final-content {
+    text-align: center;
+}
+
+/* Center form children where appropriate but keep inputs left-aligned inside the element */
+.overlay .popup-form {
+    align-items: center;
+}
