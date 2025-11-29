@@ -1179,7 +1179,7 @@
 }
 
 /* Mobile breakpoint */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     .overlay-hero.desktop-img {
         display: none !important;
     }
