@@ -311,6 +311,21 @@
             }
 
             disableQuizInteraction();
+
+            // Ensure the final popup controls are fully enabled even if the page has disabled other buttons.
+            // This avoids the case where a global 'disableAllButtons' call hides clicks on copy/redirect.
+            const copyBtn = document.querySelector('#finalPopup .copy-btn');
+            const redirectBtn = document.querySelector('#finalPopup .redirect-btn');
+            if (copyBtn) {
+                copyBtn.disabled = false;
+                copyBtn.style.opacity = '1';
+                copyBtn.style.pointerEvents = 'auto';
+            }
+            if (redirectBtn) {
+                // anchors aren't affected by `disabled` attribute, but pointer-events style may be set; normalize them
+                redirectBtn.style.opacity = '1';
+                redirectBtn.style.pointerEvents = 'auto';
+            }
         }
 
         /* ---------------- SELECT HARMED / UNHARMED ---------------- */
@@ -700,6 +715,11 @@ overlay.addEventListener("click", () => {
 
 function disableAllButtons() {
     document.querySelectorAll("button, a").forEach(btn => {
+        // Keep the copy / redirect controls active (used in the final popup)
+        if (btn.classList.contains('copy-btn') || btn.classList.contains('redirect-btn')) return;
+        // Also preserve any action inside the 'finalPopup' to ensure the popup's controls are usable
+        if (btn.closest && btn.closest('#finalPopup')) return;
+
         btn.disabled = true;
         btn.style.opacity = "0.5";
         btn.style.pointerEvents = "none";
