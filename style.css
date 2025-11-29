@@ -1178,12 +1178,34 @@
     object-fit: contain;
 }
 
-/* Mobile breakpoint */
+/* Mobile breakpoint for all small devices */
 @media (max-width: 768px) {
     .overlay-hero.desktop-img {
         display: none !important;
     }
+
     .overlay-hero.mobile-img {
         display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;  /* ensures full image is visible */
+    }
+}
+
+/* Extra small devices (max-width: 480px) */
+@media (max-width: 480px) {
+    .overlay-hero.mobile-img {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+}
+
+/* Very small devices (max-width: 360px) */
+@media (max-width: 360px) {
+    .overlay-hero.mobile-img {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
     }
 }
