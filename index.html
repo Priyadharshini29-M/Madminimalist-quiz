@@ -188,7 +188,8 @@
 
     <script>
         // Change to false to enable the already-submitted behavior.
-        const SKIP_SUBMITTED_CHECK = true; // <-- temporarily skip showing the already-submitted state
+        // Set to false to show the already-submitted overlay after refreshing when an email was sent.
+        const SKIP_SUBMITTED_CHECK = false;
 
         /* ---------------- SHOW EMAIL POPUP AFTER 1 SECOND ---------------- */
         setTimeout(() => {
@@ -618,6 +619,10 @@
 
             try {
                 sendEmailInBackground(email);
+                try {
+                    // Mark this visitor as having submitted their email — so refreshing shows the "already submitted" overlay.
+                    localStorage.setItem("mad_hasSubmitted", "true");
+                } catch (e) { }
             } catch (e) {
                 console.error(e);
             }
